@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 using namespace std;
 
@@ -119,35 +119,58 @@ int main()
 			{
 				if (line[i - 1] == '!')
 				{
-					for (size_t j = 0; j < strlen(lwe.c_str()); j++)
+					if (line[i] == '!')
 					{
-						if (line[i] == lwe[j])
+						for (size_t j = 0; j < strlen(lwe.c_str()); j++)
 						{
-							elem[j] = !elem[j];
-							line.erase(i - 1, 1);
-							if (elem[j] == 0) 
-							{ 
-								for (size_t k = 0; k < lwe.length(); k++)
+							if (line[i + 1] == lwe[j])
+							{
+								if (elem[j] == 0)
 								{
-									if (line[i-1] == lwe[k])
+									line.replace(i - 1, 3, "0");
+									lwe.replace(j, 1, "0");
+								}
+								if (elem[j] == 1)
+								{
+									line.replace(i - 1, 3, "1");
+									lwe.replace(j, 1, "1");		
+								}
+							}
+						}
+					}
+					else
+					{
+						for (size_t j = 0; j < strlen(lwe.c_str()); j++)
+						{
+							if (line[i] == lwe[j])
+							{
+								elem[j] = !elem[j];
+								line.erase(i - 1, 1);
+								if (elem[j] == 0)
+								{
+									for (size_t k = 0; k < lwe.length(); k++)
 									{
-										lwe.replace(k, 1, "0");
-										line.replace(i - 1, 1, "0"); 
+										if (line[i - 1] == lwe[k])
+										{
+											lwe.replace(k, 1, "0");
+											line.replace(i - 1, 1, "0");
+										}
+									}
+								}
+								if (elem[j] == 1)
+								{
+									for (size_t k = 0; k < lwe.length(); k++)
+									{
+										if (line[i - 1] == lwe[k])
+										{
+											lwe.replace(k, 1, "1");
+											line.replace(i - 1, 1, "1");
+										}
 									}
 								}
 							}
-							if (elem[j] == 1)
-							{
-								for (size_t k = 0; k < lwe.length(); k++)
-								{
-									if (line[i - 1] == lwe[k])
-									{
-										lwe.replace(k, 1, "1");
-										line.replace(i - 1, 1, "1");
-									}
-								}
-							}							
 						}
+					
 					}
 				}
 			}
