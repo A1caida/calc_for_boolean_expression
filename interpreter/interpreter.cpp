@@ -64,7 +64,7 @@ void calc(string &line, string &lwe, bool* elem)
 			}
 		}
 	}
-
+	b:
 	while (line.find('*') != string::npos)
 	{
 		for (size_t i = 1; i < strlen(line.c_str()); i++)
@@ -82,7 +82,7 @@ void calc(string &line, string &lwe, bool* elem)
 
 								line.replace(i - 2, 3, "1");
 								lwe.replace(k, 2, "1");
-								for (size_t kekw = k; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];
+								for (size_t kekw = k; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];  goto b;
 							}
 							else
 							{
@@ -90,23 +90,27 @@ void calc(string &line, string &lwe, bool* elem)
 								lwe.replace(k, 2, "0");
 								if (elem[k] == 0)
 								{
-									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];
+									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; goto b;
 								}
 								else
 								{
 									elem[k] = elem[j];
-									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];
+									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; goto b;
 								}
 							}
+							
 						}
+						
 					}
+					
 				}
 			}
 		}
 	}
-
+a:
 	while (line.find('+') != string::npos)
 	{
+		
 		for (size_t i = 1; i < strlen(line.c_str()); i++)
 		{
 			if (line[i - 1] == '+')
@@ -122,7 +126,8 @@ void calc(string &line, string &lwe, bool* elem)
 							{
 								line.replace(i - 2, 3, "0");
 								lwe.replace(k, 2, "0");
-								for (size_t kekw = k; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];  break;
+								for (size_t kekw = k; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; goto a;
+
 							}
 							else
 							{
@@ -130,16 +135,19 @@ void calc(string &line, string &lwe, bool* elem)
 								lwe.replace(k, 2, "1");
 								if (elem[k] == 1)
 								{
-									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; break;
+									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; goto a;
 								}
 								else
 								{
 									elem[k] = elem[j];
-									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; break;
+									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; goto a;
 								}
 							}
+							
 						}
+						
 					}
+					
 				}
 			}
 		}
@@ -218,6 +226,7 @@ int main()
 		}; break;
 		case 10:
 		{
+			line.push_back(' ');
 			line.push_back(' ');
 
 			elem[owo] = 1; elem[owo + 1] = 0;
