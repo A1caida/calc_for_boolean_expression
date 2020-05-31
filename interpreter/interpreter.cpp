@@ -1,7 +1,152 @@
 #include <iostream>
 #include <string>
+#include <locale>
 using namespace std;
+///////////отрицание перед скобками////////////
+void calc(string &line, string &lwe, bool* elem)
+{
+	for (size_t i = 1; i < strlen(line.c_str()); i++)
+	{
+		if (line[i - 1] == '!')
+		{
+			if (line[i] == '!')
+			{
+				for (size_t j = 0; j < strlen(lwe.c_str()); j++)
+				{
+					if (line[i + 1] == lwe[j])
+					{
+						if (elem[j] == 0)
+						{
+							line.replace(i - 1, 3, "0");
+							lwe.replace(j, 1, "0");
+						}
+						if (elem[j] == 1)
+						{
+							line.replace(i - 1, 3, "1");
+							lwe.replace(j, 1, "1");
+						}
+					}
+				}
+			}
+			else
+			{
+				for (size_t j = 0; j < strlen(lwe.c_str()); j++)
+				{
+					if (line[i] == lwe[j])
+					{
+						elem[j] = !elem[j];
+						line.erase(i - 1, 1);
+						if (elem[j] == 0)
+						{
+							for (size_t k = 0; k < lwe.length(); k++)
+							{
+								if (line[i - 1] == lwe[k])
+								{
+									lwe.replace(k, 1, "0");
+									line.replace(i - 1, 1, "0");
+								}
+							}
+						}
+						if (elem[j] == 1)
+						{
+							for (size_t k = 0; k < lwe.length(); k++)
+							{
+								if (line[i - 1] == lwe[k])
+								{
+									lwe.replace(k, 1, "1");
+									line.replace(i - 1, 1, "1");
+								}
+							}
+						}
+					}
+				}
 
+			}
+		}
+	}
+
+	while (line.find('*') != string::npos)
+	{
+		for (size_t i = 1; i < strlen(line.c_str()); i++)
+		{
+			if (line[i - 1] == '*')
+			{
+				for (size_t j = 0; j < strlen(lwe.c_str()); j++)
+				{
+					for (size_t k = 0; k < strlen(lwe.c_str()); k++)
+					{
+						if ((line[i] == lwe[j]) && (line[i - 2] == lwe[k]))
+						{
+							if ((elem[j] == 1) && (elem[k] == 1))
+							{
+
+								line.replace(i - 2, 3, "1");
+								lwe.replace(k, 2, "1");
+								for (size_t kekw = k; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];
+							}
+							else
+							{
+								line.replace(i - 2, 3, "0");
+								lwe.replace(k, 2, "0");
+								if (elem[k] == 0)
+								{
+									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];
+								}
+								else
+								{
+									elem[k] = elem[j];
+									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	while (line.find('+') != string::npos)
+	{
+		for (size_t i = 1; i < strlen(line.c_str()); i++)
+		{
+			if (line[i - 1] == '+')
+			{
+				for (size_t j = 0; j < strlen(lwe.c_str()); j++)
+				{
+					for (size_t k = 0; k < strlen(lwe.c_str()); k++)
+					{
+						if ((line[i] == lwe[j]) && (line[i - 2] == lwe[k]))
+						{
+
+							if ((elem[j] == 0) && (elem[k] == 0))
+							{
+								line.replace(i - 2, 3, "0");
+								lwe.replace(k, 2, "0");
+								for (size_t kekw = k; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];  break;
+							}
+							else
+							{
+								line.replace(i - 2, 3, "1");
+								lwe.replace(k, 2, "1");
+								if (elem[k] == 1)
+								{
+									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; break;
+								}
+								else
+								{
+									elem[k] = elem[j];
+									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+}
+///////////отрицание перед скобками////////////
 int main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -10,7 +155,7 @@ int main()
 	string lwe;//хранение букв для работы
 	bool* elem = new bool[100];//значение элементов
 	int ch = 0;//case
-
+	///////////отрицание перед скобками////////////
 	while (ch != 10)
 	{
 		cout << "___________________" << endl;
@@ -26,7 +171,7 @@ int main()
 		cout << "9. Удалить послединй элемент." << endl;
 		cout << "10. Выполнить упрощение." << endl;		
 		cout << "Выберите что вводить: ";
-
+		///////////отрицание перед скобками////////////
 		while (!(cin >> ch) || (cin.peek() != '\n'))
 		{
 			cin.clear();
@@ -76,188 +221,36 @@ int main()
 			line.push_back(' ');
 
 			elem[owo] = 1; elem[owo + 1] = 0;
-			
-			for (size_t i = 1; i < strlen(line.c_str()); i++)
-			{
-				if (line[i - 1] == '!')
-				{
-					if (line[i] == '(')
-					{
-						if (line[i + 2] == '*')
-						{
-							line.replace(i + 2, 1, "+");
-							line.replace(i, 1, "!");							
-							string temp = line.substr(i+3,1);
-							line.replace(i + 3, 1, "!");
-							line.replace(i + 4, 1, temp);
-							line.replace(i - 1,1, " ");
-							temp = line.substr(i, 5);
-							line.erase(i, 5);
-							line.replace(i - 1, 1, temp);
-							line.push_back(' ');
-							break;							
-						}
-						else
-						{
-							line.replace(i + 2, 1, "*");
-							line.replace(i, 1, "!");
-							string temp = line.substr(i + 3, 1);
-							line.replace(i + 3, 1, "!");
-							line.replace(i + 4, 1, temp);
-							line.replace(i - 1, 1, " ");
-							temp = line.substr(i, 5);
-							line.erase(i, 5);
-							line.replace(i - 1, 1, temp);
-							line.push_back(' ');
-							break;
-						}
-					}
-				}
-			}
-
-			for (size_t i = 1; i < strlen(line.c_str()); i++)
-			{
-				if (line[i - 1] == '!')
-				{
-					if (line[i] == '!')
-					{
-						for (size_t j = 0; j < strlen(lwe.c_str()); j++)
-						{
-							if (line[i + 1] == lwe[j])
-							{
-								if (elem[j] == 0)
-								{
-									line.replace(i - 1, 3, "0");
-									lwe.replace(j, 1, "0");
-								}
-								if (elem[j] == 1)
-								{
-									line.replace(i - 1, 3, "1");
-									lwe.replace(j, 1, "1");		
-								}
-							}
-						}
-					}
-					else
-					{
-						for (size_t j = 0; j < strlen(lwe.c_str()); j++)
-						{
-							if (line[i] == lwe[j])
-							{
-								elem[j] = !elem[j];
-								line.erase(i - 1, 1);
-								if (elem[j] == 0)
-								{
-									for (size_t k = 0; k < lwe.length(); k++)
-									{
-										if (line[i - 1] == lwe[k])
-										{
-											lwe.replace(k, 1, "0");
-											line.replace(i - 1, 1, "0");
-										}
-									}
-								}
-								if (elem[j] == 1)
-								{
-									for (size_t k = 0; k < lwe.length(); k++)
-									{
-										if (line[i - 1] == lwe[k])
-										{
-											lwe.replace(k, 1, "1");
-											line.replace(i - 1, 1, "1");
-										}
-									}
-								}
-							}
-						}
-					
-					}
-				}
-			}
-
-			while (line.find('*') != string::npos)
+			int temp = 0, temp1 = 0;
+			while (line.find('(') != string::npos)
 			{
 				for (size_t i = 1; i < strlen(line.c_str()); i++)
 				{
-					if (line[i - 1] == '*')
+					for (size_t i = 0; i < line.size(); i++)
 					{
-						for (size_t j = 0; j < strlen(lwe.c_str()); j++)
+						if (line[i] == '(')
 						{
-							for (size_t k = 0; k < strlen(lwe.c_str()); k++)
-							{
-								if ((line[i] == lwe[j]) && (line[i - 2] == lwe[k]))
-								{
-									if ((elem[j] == 1) && (elem[k] == 1))
-									{
-
-										line.replace(i - 2, 3, "1");
-										lwe.replace(k, 2, "1");
-										for (size_t kekw = k; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];
-									}
-									else
-									{
-										line.replace(i - 2, 3, "0");
-										lwe.replace(k, 2, "0");
-										if (elem[k] == 0)
-										{
-											for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];											
-										}
-										else
-										{
-											elem[k] = elem[j];
-											for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];											
-										}
-									}
-								}
-							}
+							temp = i;
+						}
+						if (line[i] == ')')
+						{
+							temp1 = i; break;
 						}
 					}
 				}
+				int tempuwu = temp1 - temp - 1;
+				int tempowo = temp + 1;
+				string nyami;
+				nyami.assign(line, tempowo, tempuwu);
+				calc(nyami, lwe, elem);
+				tempuwu = tempuwu + 2;
+				line.replace(temp, tempuwu, nyami);
 			}
-
-			while (line.find('+') != string::npos)
-			{
-				for (size_t i = 1; i < strlen(line.c_str()); i++)
-				{
-					if (line[i - 1] == '+')
-					{
-						for (size_t j = 0; j < strlen(lwe.c_str()); j++)
-						{
-							for (size_t k = 0; k < strlen(lwe.c_str()); k++)
-							{
-								if ((line[i] == lwe[j]) && (line[i - 2] == lwe[k]))
-								{
-
-									if ((elem[j] == 0) && (elem[k] == 0))
-									{
-										line.replace(i - 2, 3, "0");
-										lwe.replace(k, 2, "0");
-										for (size_t kekw = k; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];										
-									}
-									else
-									{
-										line.replace(i - 2, 3, "1");
-										lwe.replace(k, 2, "1");
-										if (elem[k] == 1)
-										{
-											for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];	
-										}
-										else
-										{
-											elem[k] = elem[j];
-											for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1];
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+			calc(line, lwe, elem);
 			cout << "___________________" << endl;
 			cout << line << endl;
 		}; break;
-
+		///////////отрицание перед скобками////////////
 		case 7:
 		{
 			elem[owo] = 1;
