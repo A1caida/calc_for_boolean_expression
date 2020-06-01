@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-
+#include <locale>
 using namespace std;
 
 void calc(string &line, string &lwe, bool* elem)
@@ -96,12 +96,9 @@ void calc(string &line, string &lwe, bool* elem)
 									elem[k] = elem[j];
 									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; goto b;
 								}
-							}
-							
-						}
-						
-					}
-					
+							}							
+						}				
+					}					
 				}
 			}
 		}
@@ -109,7 +106,6 @@ void calc(string &line, string &lwe, bool* elem)
 a:
 	while (line.find('+') != string::npos)
 	{
-		
 		for (size_t i = 1; i < strlen(line.c_str()); i++)
 		{
 			if (line[i - 1] == '+')
@@ -141,12 +137,9 @@ a:
 									elem[k] = elem[j];
 									for (size_t kekw = j; kekw < line.length() / 2; kekw++) elem[kekw] = elem[kekw + 1]; goto a;
 								}
-							}
-							
-						}
-						
+							}							
+						}						
 					}
-					
 				}
 			}
 		}
@@ -159,7 +152,7 @@ int main()
 	string line;//вывод на экран выражения
 	int owo = 0;//счет
 	string lwe;//хранение букв для работы
-	bool* elem = new bool[100];//значение элементов
+	bool elem[100];//значение элементов
 	int ch = 0;//case
 	
 	while (ch != 10)
@@ -177,7 +170,7 @@ int main()
 		cout << "9. Удалить послединй элемент." << endl;
 		cout << "10. Выполнить упрощение." << endl;		
 		cout << "Выберите что вводить: ";
-		///////////отрицание перед скобками////////////
+		
 		while (!(cin >> ch) || (cin.peek() != '\n'))
 		{
 			cin.clear();
@@ -240,10 +233,11 @@ int main()
 						}
 						if (line[i] == ')')
 						{
-							temp1 = i; break;
+							temp1 = i; goto loh;
 						}
 					}
 				}
+				loh:
 				int tempuwu = temp1 - temp - 1;
 				int tempowo = temp + 1;
 				string nyami;
