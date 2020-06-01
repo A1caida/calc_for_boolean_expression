@@ -2,7 +2,7 @@
 #include <string>
 #include <locale>
 using namespace std;
-///////////отрицание перед скобками////////////
+
 void calc(string &line, string &lwe, bool* elem)
 {
 	for (size_t i = 1; i < strlen(line.c_str()); i++)
@@ -60,7 +60,6 @@ void calc(string &line, string &lwe, bool* elem)
 						}
 					}
 				}
-
 			}
 		}
 	}
@@ -151,10 +150,9 @@ a:
 				}
 			}
 		}
-	}
-	
+	}	
 }
-///////////отрицание перед скобками////////////
+
 int main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -163,7 +161,7 @@ int main()
 	string lwe;//хранение букв для работы
 	bool* elem = new bool[100];//значение элементов
 	int ch = 0;//case
-	///////////отрицание перед скобками////////////
+	
 	while (ch != 10)
 	{
 		cout << "___________________" << endl;
@@ -227,7 +225,6 @@ int main()
 		case 10:
 		{
 			line.push_back(' ');
-			line.push_back(' ');
 
 			elem[owo] = 1; elem[owo + 1] = 0;
 			int temp = 0, temp1 = 0;
@@ -259,7 +256,7 @@ int main()
 			cout << "___________________" << endl;
 			cout << line << endl;
 		}; break;
-		///////////отрицание перед скобками////////////
+		
 		case 7:
 		{
 			elem[owo] = 1;
