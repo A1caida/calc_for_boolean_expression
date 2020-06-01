@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <locale>
+
 using namespace std;
 
 void calc(string &line, string &lwe, bool* elem)
