@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <locale>
+
 using namespace std;
 
 void calc(string &line, string &lwe, bool* elem)
@@ -233,11 +233,11 @@ int main()
 						}
 						if (line[i] == ')')
 						{
-							temp1 = i; goto loh;
+							temp1 = i; goto uwu;
 						}
 					}
 				}
-				loh:
+			uwu:
 				int tempuwu = temp1 - temp - 1;
 				int tempowo = temp + 1;
 				string nyami;
