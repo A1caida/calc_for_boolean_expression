@@ -93,9 +93,9 @@ int main()
 			string a;cin >> a;
 
 			line += a.substr(0, 1);
-			
-			cout << "Введите значение:";
-			while ((elem[0] != '0') || (elem[0] != '1'))
+
+			cout << "Введите значение:"; cin >> elem;
+			while ((elem[0] != '0') && (elem[0] != '1'))
 			{
 				cout << "Некоректные данные, введите 0 или 1." << endl;
 				elem.clear();
@@ -149,7 +149,7 @@ int main()
 			}
 			calc(lwe);
 			cout << "___________________" << endl;
-			cout << line << "= ";
+			cout << line << "=";
 			cout << lwe << endl;
 		}; break;
 		
