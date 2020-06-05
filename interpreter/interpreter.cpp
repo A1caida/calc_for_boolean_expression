@@ -5,15 +5,15 @@ using namespace std;
 
 void calc(string& lwe)
 {
-	un:
+un:
 	while (lwe.find('!') != string::npos)
 	{
-		if (lwe[lwe.find('!')+1] == '!')
+		if (lwe[lwe.find('!') + 1] == '!')
 		{
 			lwe.erase(lwe.find('!'), lwe.find('!') + 2); goto un;
 		}
 		else
-		{		
+		{
 			if (lwe[lwe.find('!') + 1] == '1')
 			{
 				lwe.replace(lwe.find('!'), 2, "0"); goto un;
@@ -21,10 +21,10 @@ void calc(string& lwe)
 			else
 			{
 				lwe.replace(lwe.find('!'), 2, "1"); goto un;
-			}											
+			}
 		}
 	}
-	b:
+b:
 	while (lwe.find('*') != string::npos)
 	{
 		if ((lwe[lwe.find('*') + 1] == '1') && (lwe[lwe.find('*') + 1] == '1'))
@@ -34,11 +34,11 @@ void calc(string& lwe)
 		else
 		{
 			lwe.replace(lwe.find('*') - 1, 3, "0");	goto b;
-		}														
+		}
 	}
-	a:
+a:
 	while (lwe.find('+') != string::npos)
-	{	
+	{
 		if ((lwe[lwe.find('+') + 1] == '0') && (lwe[lwe.find('+') - 1] == '0'))
 		{
 			lwe.replace(lwe.find('+') - 1, 3, "0"); goto a;
@@ -46,8 +46,8 @@ void calc(string& lwe)
 		else
 		{
 			lwe.replace(lwe.find('+') - 1, 3, "1"); goto a;
-		}													
-	}	
+		}
+	}
 }
 
 int main()
@@ -58,12 +58,11 @@ int main()
 	string lwe;//хранение букв для работы
 	string elem;//значение элементов
 	int ch = 0;//case
-	
+
 	while (ch != 10)
 	{
 		cout << "___________________" << endl;
 		cout << line << endl;
-		cout << lwe << endl;
 		cout << "1. Любая буква" << endl;
 		cout << "2. (" << endl;
 		cout << "3. )" << endl;
@@ -73,9 +72,9 @@ int main()
 		cout << "7. 1" << endl;
 		cout << "8. 0" << endl;
 		cout << "9. Удалить послединй элемент." << endl;
-		cout << "10. Выполнить упрощение." << endl;		
+		cout << "10. Выполнить упрощение." << endl;
 		cout << "Выберите что вводить: ";
-		
+
 		while (!(cin >> ch) || (cin.peek() != '\n'))
 		{
 			cin.clear();
@@ -89,8 +88,8 @@ int main()
 		{
 			cout << "При вводе больше одной буквы, засчитываться будет 1-ая." << endl;
 			cout << "Введите букву:";
-				
-			string a;cin >> a;
+
+			string a; cin >> a;
 
 			line += a.substr(0, 1);
 
@@ -101,11 +100,11 @@ int main()
 				elem.clear();
 				cin >> elem;
 			}
-			
+
 			lwe += elem.substr(0, 1);
 			owo++;
 			a.clear(); elem.clear();
-			
+
 		}; break;
 		case 4:
 		{
@@ -124,26 +123,23 @@ int main()
 			int temp = 0, temp1 = 0;
 			while (lwe.find('(') != string::npos)
 			{
-				for (size_t i = 1; i < strlen(lwe.c_str()); i++)
+				for (size_t i = 0; i < lwe.size(); i++)
 				{
-					for (size_t i = 0; i < lwe.size(); i++)
+					if (lwe[i] == '(')
 					{
-						if (line[i] == '(')
-						{
-							temp = i;
-						}
-						if (line[i] == ')')
-						{
-							temp1 = i; goto uwu;
-						}
+						temp = i;
 					}
+					if (lwe[i] == ')')
+					{
+						temp1 = i; goto uwu;
+					}	
 				}
 			uwu:
 				int tempuwu = temp1 - temp - 1;
 				int tempowo = temp + 1;
 				string nyami;
 				nyami.assign(lwe, tempowo, tempuwu);
-				calc(lwe);
+				calc(nyami);
 				tempuwu = tempuwu + 2;
 				lwe.replace(temp, tempuwu, nyami);
 			}
@@ -152,7 +148,7 @@ int main()
 			cout << line << "=";
 			cout << lwe << endl;
 		}; break;
-		
+
 		case 7:
 		{
 			owo++;
@@ -175,17 +171,17 @@ int main()
 		}; break;
 		case 9:
 		{
-			if ((line[line.length() - 1] == '(')|| (line[line.length() - 1] == ')')|| (line[line.length() - 1] == '+')|| (line[line.length() - 1] == '!')|| (line[line.length() - 1] == '*'))
+			if ((line[line.length() - 1] == '(') || (line[line.length() - 1] == ')') || (line[line.length() - 1] == '+') || (line[line.length() - 1] == '!') || (line[line.length() - 1] == '*'))
 			{
 				line.erase(line.length() - 1, 1); lwe.erase(lwe.length() - 1, 1);
 			}
 			else
 			{
-				line.erase(line.length()-1, 1);
+				line.erase(line.length() - 1, 1);
 				lwe.erase(lwe.length() - 1, 1);
 				owo--;
 			}
-			
+
 		}; break;
 		default:cout << "Неверная команда!" << endl;
 			break;
