@@ -27,7 +27,7 @@ un:
 b:
 	while (lwe.find('*') != string::npos)
 	{
-		if ((lwe[lwe.find('*') + 1] == '1') && (lwe[lwe.find('*') + 1] == '1'))
+		if ((lwe[lwe.find('*') + 1] == '1') && (lwe[lwe.find('*') - 1] == '1'))
 		{
 			lwe.replace(lwe.find('*') - 1, 3, "1"); goto b;
 		}
